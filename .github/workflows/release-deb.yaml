@@ -34,8 +34,11 @@ jobs:
       - name: Build DEB package
         run: make cloudflared-deb
 
+      - name: Rename to match official naming
+        run: mv cloudflared_*.deb cloudflared-linux-amd64.deb
+
       - name: Upload DEB to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: 'cloudflared_*.deb'
+          files: cloudflared-linux-amd64.deb
           generate_release_notes: true
