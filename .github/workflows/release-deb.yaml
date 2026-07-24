@@ -38,8 +38,13 @@ jobs:
       - name: Build DEB package
         run: make cloudflared-deb
 
+      - name: Copy deb as latest
+        run: cp cloudflared_*.deb cloudflared_latest_amd64.deb
+
       - name: Upload DEB to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: '*.deb'
+          files: |
+            cloudflared_*.deb
+            cloudflared_latest_amd64.deb
           generate_release_notes: true
