@@ -36,6 +36,32 @@ Downloads are available as standalone binaries, a Docker image, and Debian, RPM,
 User documentation for Cloudflare Tunnel can be found at https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/
 
 
+## Using HTTP Proxy
+
+`cloudflared-proxy` supports routing edge connections through an HTTP proxy. This is useful when your network requires proxy configuration to reach Cloudflare's edge nodes.
+
+Set standard proxy environment variables before running `cloudflared`:
+
+```bash
+export HTTP_PROXY=http://proxy.example.com:8080
+export HTTPS_PROXY=http://proxy.example.com:8080
+```
+
+Or run inline:
+
+```bash
+HTTPS_PROXY=http://proxy.example.com:8080 cloudflared tunnel run my-tunnel
+```
+
+If your proxy requires authentication:
+
+```bash
+export HTTPS_PROXY=http://user:password@proxy.example.com:8080
+```
+
+The proxy setting is read via `proxy.FromEnvironment`, so it also respects the lowercase `http_proxy` / `https_proxy` variants and `NO_PROXY` for exclusions.
+
+
 ## Creating Tunnels and routing traffic
 
 Once installed, you can authenticate `cloudflared` into your Cloudflare account and begin creating Tunnels to serve traffic to your origins.
