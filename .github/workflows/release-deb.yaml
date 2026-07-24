@@ -25,12 +25,8 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ruby-dev rubygems build-essential
+          sudo apt-get install -y ruby-dev rubygems build-essential capnproto
           gem install fpm
-
-      - name: Install capnp
-        run: |
-          sudo apt-get install -y capnproto
 
       - name: Build cloudflared
         run: make cloudflared
@@ -38,13 +34,8 @@ jobs:
       - name: Build DEB package
         run: make cloudflared-deb
 
-      - name: Rename deb to match official naming
-        run: cp cloudflared_*.deb cloudflared-linux-amd64.deb
-
       - name: Upload DEB to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            cloudflared_*.deb
-            cloudflared-linux-amd64.deb
+          files: 'cloudflared_*.deb'
           generate_release_notes: true
