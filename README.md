@@ -36,30 +36,31 @@ Downloads are available as standalone binaries, a Docker image, and Debian, RPM,
 User documentation for Cloudflare Tunnel can be found at https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/
 
 
-## Using HTTP Proxy
+## Proxy Support (SOCKS5 via `ALL_PROXY`)
 
-`cloudflared-proxy` supports routing edge connections through an HTTP proxy. This is useful when your network requires proxy configuration to reach Cloudflare's edge nodes.
+`cloudflared-proxy` supports routing edge connections through a **SOCKS5 proxy**.
 
-Set standard proxy environment variables before running `cloudflared`:
+> **重要：本 fork 仅支持 HTTP/2 模式的 Tunnel 连接，不支持 HTTP/1.1 降级。**
 
-```bash
-export HTTP_PROXY=http://proxy.example.com:8080
-export HTTPS_PROXY=http://proxy.example.com:8080
-```
-
-Or run inline:
+设置 `ALL_PROXY` 环境变量指向 SOCKS5 代理：
 
 ```bash
-HTTPS_PROXY=http://proxy.example.com:8080 cloudflared tunnel run my-tunnel
+export ALL_PROXY=socks5://127.0.0.1:1080
 ```
 
-If your proxy requires authentication:
+或内联运行：
 
 ```bash
-export HTTPS_PROXY=http://user:password@proxy.example.com:8080
+ALL_PROXY=socks5://127.0.0.1:1080 cloudflared tunnel run my-tunnel
 ```
 
-The proxy setting is read via `proxy.FromEnvironment`, so it also respects the lowercase `http_proxy` / `https_proxy` variants and `NO_PROXY` for exclusions.
+如果代理需要认证：
+
+```bash
+export ALL_PROXY=socks5://user:password@127.0.0.1:1080
+```
+
+**不支持** `HTTP_PROXY` / `HTTPS_PROXY` —— 仅认 `ALL_PROXY` 且必须是 SOCKS5 协议。
 
 
 ## Creating Tunnels and routing traffic
@@ -81,7 +82,7 @@ Want to test Cloudflare Tunnel before adding a website to Cloudflare? You can do
 
 Cloudflare currently supports versions of cloudflared that are **within one year** of the most recent release. Breaking changes unrelated to feature availability may be introduced that will impact versions released more than one year ago. You can read more about upgrading cloudflared in our [developer documentation](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/downloads/update-cloudflared/).
 
-For example, as of January 2023 Cloudflare will support cloudflared version 2023.1.1 to cloudflared 2022.1.1.
+For example, as of January 2023 Cloudflare will support cloudflared version 2023.1.1 to cloudflared version 2022.1.1.
 
 ## Development
 
