@@ -40,7 +40,7 @@ User documentation for Cloudflare Tunnel can be found at https://developers.clou
 
 `cloudflared-proxy` supports routing edge connections through a **SOCKS5 proxy**.
 
-> **重要：本 fork 仅支持 HTTP/2 模式的 Tunnel 连接，不支持 HTTP/1.1 降级。**
+> **重要：本 fork 不支持 QUIC 协议。**
 
 设置 `ALL_PROXY` 环境变量指向 SOCKS5 代理：
 
